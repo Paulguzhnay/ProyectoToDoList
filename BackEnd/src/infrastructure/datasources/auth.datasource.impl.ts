@@ -1,6 +1,6 @@
 import { BcryptAdapter } from '../../config';
 import { UserModel } from '../../data/mongodb';
-import { AuthDataSource, CustomError, RegisterUserDto, UserEntity } from '../../domain/';
+import { AuthDataSource, CustomError, LoginUserDto, RegisterUserDto, UserEntity } from '../../domain/';
 import { UserMapper } from '../mappers/user.mapper';
 
 type HashFunction = (password: string) => string;
@@ -13,6 +13,28 @@ export class AuthDataSourceImpl implements AuthDataSource {
         private readonly hashPassword: HashFunction = BcryptAdapter.hash,
         private readonly comparePassword: CompareFunction = BcryptAdapter.compare,
     ) { }
+
+
+    async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+        const { email, password } = loginUserDto;
+
+        try {
+            //1. Check if user exists
+            const user = await UserModel.findOne({ email });
+            if (!user) throw CustomError.badRequest('User or password incorrect');
+
+            //2. Compare the password
+            const isMatching = this.comparePassword(password, user.password);
+            if (!isMatching) throw CustomError.badRequest('User or password incorrect');
+
+            //3. Map the data to UserEntity
+            return UserMapper.userEntityFromObject(user);
+
+        } catch (error) {
+            console.log(error);
+            throw CustomError.internalServer();
+        }
+    }
 
     async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
         const { firstName, lastName, email, password } = registerUserDto;

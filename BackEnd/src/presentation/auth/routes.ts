@@ -12,7 +12,6 @@ export class AuthRoutes {
         //* Define your routes here
         router.post('/login', controller.loginUser);
         router.post('/register', controller.registerUser);
-
         return router;
     }
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AuthRepository, CustomError, RegisterUserDto } from '../../domain';
+import { AuthRepository, CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
 
 export class AuthController {
     // Dependency injection
@@ -12,7 +12,6 @@ export class AuthController {
             return res.status(error.statusCode).json({ error: error.message });
         }
 
-        console.log(error);
         return res.status(500).json({ error: 'Internal server error' });
     }
 
@@ -20,13 +19,19 @@ export class AuthController {
         const [error, registerUserDto] = RegisterUserDto.create(req.body);
         if (error) return res.status(400).json({ message: error });
 
-
-        this.authRepository.register(registerUserDto!)
-            .then(user => res.json(user))
-            .catch( error =>  this.handleError(error, res));
+        new RegisterUser(this.authRepository)
+            .execute(registerUserDto!)
+            .then( data => res.json(data))
+            .catch(error => this.handleError(error, res));
     }
 
     loginUser = (req: Request, res: Response) => {
-        res.json({ message: 'User logged in' });
+        const [error, loginUserDto] = LoginUserDto.create(req.body);
+        if (error) return res.status(400).json({ message: error });
+
+        new LoginUser(this.authRepository)
+            .execute(loginUserDto!)
+            .then( data => res.json(data))
+            .catch(error => this.handleError(error, res));
     }
 }
