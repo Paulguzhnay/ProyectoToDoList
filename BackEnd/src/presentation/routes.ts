@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthRoutes } from './auth/routes';
-// import { TodoRoutes } from './todo/routes';
+import { TodoRoutes } from './todo/routes';
 
 export class AppRoutes {
     static get routes(): Router {
@@ -8,7 +8,7 @@ export class AppRoutes {
         
         //* Define your routes here
         router.use('/api/auth', AuthRoutes.routes);
-        // router.use('/api/todo', TodoRoutes.routes);
+        router.use('/api/todo', TodoRoutes.routes);
         return router;
     }
 }
