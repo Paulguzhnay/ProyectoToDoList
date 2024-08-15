@@ -1,0 +1,14 @@
+ 
+
+.form-label {
+    color: black; /* Cambia el color de los labels a blanco */
+  }
+  
+  .form-control {
+    color: black; /* Cambia el color del texto en los campos a negro para contraste */
+  }
+  
+  .invalid-feedback {
+    color: red; /* Cambia el color del texto de los errores a rojo */
+  }
+  

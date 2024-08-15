@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/do-list-version1",
+            "outputPath": "dist/doList-version1",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
