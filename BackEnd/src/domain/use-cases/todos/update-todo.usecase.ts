@@ -1,6 +1,6 @@
 import { ITodoRepository } from '../../repositories/todos/todo.repository';
 import { TodoEntity } from '../../entities/todo.entity';
-import { UpdateTodoDTO } from '../../dtos/todos/update-todo.dto';
+import { UpdateTodoDTO } from '../../dtos/todo/update-todo.dto';
 
 export class UpdateTodoUseCase {
     constructor(private todoRepository: ITodoRepository) {}

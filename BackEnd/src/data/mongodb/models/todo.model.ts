@@ -2,6 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 
 const todoSchema = new Schema({
+    userID: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'User is required'],
+    },
     title: {
         type: String,
         required: [true, 'Title is required'],

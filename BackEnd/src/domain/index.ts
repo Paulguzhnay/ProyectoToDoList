@@ -5,6 +5,8 @@ export * from './datasources/auth.datasource';
 //* Dtos
 export * from './dtos/auth/register-user.dto';
 export * from './dtos/auth/login-user.dto';
+export * from './dtos/todo/create-task.dto';
+export * from './dtos/todo/update-todo.dto';
 
 //* Entities
 export * from './entities/user.entity';
