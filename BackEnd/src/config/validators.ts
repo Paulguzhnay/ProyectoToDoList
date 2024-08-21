@@ -8,5 +8,4 @@ export class Validators {
   static get password() {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
   } 
-  
 }
