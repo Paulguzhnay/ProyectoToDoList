@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "do-list-version1",
+  "builds": [
+    {
+      "src": "angular.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/do-list-version1"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/dist/do-list-version1/$1"
+    }
+  ]
+}
