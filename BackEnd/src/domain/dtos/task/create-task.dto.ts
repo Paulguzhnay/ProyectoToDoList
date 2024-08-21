@@ -1,5 +1,3 @@
-import { Validators } from "../../../config";
-
 
 export class CreateTaskDto {
     constructor(
@@ -11,9 +9,7 @@ export class CreateTaskDto {
     static create(object: {[key: string]: any}): [string?, CreateTaskDto?] {
         const { title, description, userID } = object;
         if (!title) return ['Title is required'];
-        if (!Validators.text.test(title)) return ['Invalid title'];
         if (!description) return ['Description is required'];
-        if (!Validators.text.test(description)) return ['Invalid description'];
         if (!userID) return ['User is required'];
         
         return [

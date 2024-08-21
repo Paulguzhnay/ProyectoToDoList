@@ -8,7 +8,7 @@ export class AppRoutes {
         
         //* Define your routes here
         router.use('/api/auth', AuthRoutes.routes);
-        router.use('/api/todo', TaskRoutes.routes);
+        router.use('/api/task', TaskRoutes.routes);
         return router;
     }
 }

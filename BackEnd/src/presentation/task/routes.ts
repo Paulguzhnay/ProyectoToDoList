@@ -10,11 +10,12 @@ export class TaskRoutes {
         const taskRepository = new TaskRepositoryImpl(datasource);
         const controller = new TaskController(taskRepository);
 
+
         //* Define your routes here
-        router.post('/tasks', [AuthMiddleWare.validateToken], controller.createTask);
-        router.put('/tasks/:id', [AuthMiddleWare.validateToken], controller.updateTask);
-        router.delete('/tasks/:id', [AuthMiddleWare.validateToken], controller.deleteTask);
-        // router.get('/tasks', [AuthMiddleWare.validateToken], controller.getAllTasks);
+        router.post('/', [AuthMiddleWare.validateToken], controller.createTask);
+        router.put('/:id', [AuthMiddleWare.validateToken], controller.updateTask);
+        router.delete('/:id', [AuthMiddleWare.validateToken], controller.deleteTask);
+        // router.get('/', [AuthMiddleWare.validateToken], controller.getAllTasks);
         return router;
     }
 }

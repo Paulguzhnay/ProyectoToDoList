@@ -35,7 +35,8 @@ export class TaskController {
     }
 
     updateTask = (req: Request, res: Response) => {
-        const [error, updateTaskDto] = UpdateTaskDto.create(req.body);
+        const taskID = req.params.id;
+        const [error, updateTaskDto] = UpdateTaskDto.create({ id: taskID, ...req.body});
         if (error) return res.status(400).json({ message: error });
 
         new UpdateTask(this.taskRepository)
@@ -45,7 +46,8 @@ export class TaskController {
     }
 
     deleteTask = (req: Request, res: Response) => {
-        const [error, deleteTaskDto] = DeleteTaskDto.create(req.body);
+        const taskID = req.params.id;
+        const [error, deleteTaskDto] = DeleteTaskDto.create({id: taskID, ...req.body});
         if (error) return res.status(400).json({ message: error });
 
         new DeleteTask(this.taskRepository)
