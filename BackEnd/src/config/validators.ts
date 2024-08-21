@@ -9,4 +9,7 @@ export class Validators {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
   } 
   
+  static get text() {
+    return /^\s*$/;
+  }
 }

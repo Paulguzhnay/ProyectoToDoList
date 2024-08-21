@@ -1,7 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
 
-const todoSchema = new Schema({
+const taskSchema = new Schema({
+    userID: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'User is required'],
+    },
     title: {
         type: String,
         required: [true, 'Title is required'],
@@ -24,4 +29,4 @@ const todoSchema = new Schema({
     },
 });
 
-export const TodoModel = mongoose.model('Todo', todoSchema);
+export const TaskModel = mongoose.model('Task', taskSchema);
