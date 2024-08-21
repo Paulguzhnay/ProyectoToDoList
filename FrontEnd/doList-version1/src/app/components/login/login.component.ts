@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs'; // Para manejar errores
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
- 
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
@@ -23,20 +24,18 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
 
-      const {email,password} = this.loginForm.value;
-      const isAuthenticated = this.authService.login(email, password);
-      if (isAuthenticated) {
-
-        this.router.navigate(['/DoList']);
-        console.log('Login successful');
-      } else {
-        console.error('Login failed');
- 
-      }
-
-
- 
+      this.authService.login(email, password).pipe(
+        tap(response => {
+          console.log('Login successful', response);
+          this.router.navigate(['/DoList']); // Redirige a la página de destino después del inicio de sesión exitoso
+        }),
+        catchError(error => {
+          console.error('Login failed', error);
+          return of(null); // Devuelve un observable vacío para manejar el error
+        })
+      ).subscribe();
     }
   }
 }

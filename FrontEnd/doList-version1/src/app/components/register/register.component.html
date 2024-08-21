@@ -3,31 +3,41 @@
       <h3 class="card-title text-center mb-4 text-white">Registrarse</h3>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="mb-4">
-          <label for="nombre" class="form-label">Nombre:</label>
-          <input id="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched}">
-          <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="invalid-feedback">
+          <label for="firstName" class="form-label">Nombre:</label>
+          <input id="firstName" formControlName="firstName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched}">
+          <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="invalid-feedback">
             El nombre es requerido.
           </div>
         </div>
-  
+
         <div class="mb-4">
-          <label for="correo" class="form-label">Correo:</label>
-          <input id="correo" formControlName="correo" class="form-control" [ngClass]="{'is-invalid': registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched}">
-          <div *ngIf="registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched" class="invalid-feedback">
-            <div *ngIf="registerForm.get('correo')?.errors?.['required']">El correo es requerido.</div>
-            <div *ngIf="registerForm.get('correo')?.errors?.['email']">Correo no válido.</div>
+          <label for="lastName" class="form-label">Apellido:</label>
+          <input id="lastName" formControlName="lastName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched}">
+          <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="invalid-feedback">
+            El nombre es requerido.
+          </div>
+        </div>        
+
+
+
+        <div class="mb-4">
+          <label for="email" class="form-label">Correo:</label>
+          <input id="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
+            <div *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido.</div>
+            <div *ngIf="registerForm.get('email')?.errors?.['email']">Correo no válido.</div>
           </div>
         </div>
   
         <div class="mb-4">
-          <label for="contraseña" class="form-label">Contraseña:</label>
-          <input id="contraseña" type="password" formControlName="contraseña" class="form-control" [ngClass]="{'is-invalid': registerForm.get('contraseña')?.invalid && registerForm.get('contraseña')?.touched}">
-          <div *ngIf="registerForm.get('contraseña')?.invalid && registerForm.get('contraseña')?.touched" class="invalid-feedback">
-            <div *ngIf="registerForm.get('contraseña')?.errors?.['required']">La contraseña es requerida.</div>
-            <div *ngIf="registerForm.get('contraseña')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
+          <label for="password" class="form-label">Contraseña:</label>
+          <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
+            <div *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+            <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
           </div>
         </div>
-  
+  <!--
         <div class="mb-4">
           <label for="confirmarContraseña" class="form-label">Confirmar Contraseña:</label>
           <input id="confirmarContraseña" type="password" formControlName="confirmarContraseña" class="form-control" [ngClass]="{'is-invalid': registerForm.errors?.['notSame'] && registerForm.get('confirmarContraseña')?.touched}">
@@ -35,7 +45,7 @@
             Las contraseñas no coinciden.
           </div>
         </div>
-  
+  -->
         <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Registrarse</button>
       </form>
     </div>
