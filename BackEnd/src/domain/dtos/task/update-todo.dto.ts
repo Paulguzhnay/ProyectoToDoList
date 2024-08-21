@@ -2,6 +2,7 @@ import { Validators } from "../../../config";
 
 export class UpdateTaskDto {
     constructor(
+        public id: string,
         public title: string,
         public description: string,
         public isFinished: boolean,
@@ -9,8 +10,9 @@ export class UpdateTaskDto {
         public updatedAt: Date = new Date(),
     ) {}
 
-    static update(object: {[key: string]: any}): [string?, UpdateTaskDto?] {
-        const { title, description, isFinished, userID } = object;
+    static create(object: {[key: string]: any}): [string?, UpdateTaskDto?] {
+        const { id, title, description, isFinished, userID } = object;
+        if (!id) return ['Task ID is required'];
         if (!title) return ['Title is required'];
         if (!Validators.text.test(title)) return ['Invalid title'];
         if (!description) return ['Description is required'];
@@ -19,7 +21,7 @@ export class UpdateTaskDto {
         
         return [
             undefined,
-            new UpdateTaskDto(title.trim(), description.trim(), isFinished, userID)
+            new UpdateTaskDto(id, title.trim(), description.trim(), isFinished, userID)
         ];
     }
 }
