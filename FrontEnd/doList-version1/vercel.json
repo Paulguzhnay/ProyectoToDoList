@@ -3,7 +3,7 @@
   "name": "do-list-version1",
   "builds": [
     {
-      "src": "angular.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist/do-list-version1"
