@@ -33,7 +33,6 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       console.log("data", this.registerForm.value)
       this.authService.registerUser(this.registerForm.value).subscribe(response=>{
- 
         console.log('Registro exitoso',response);
         this.router.navigate(['/login']);  
       })

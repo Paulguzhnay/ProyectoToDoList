@@ -9,8 +9,8 @@ export class AuthService {
   private isLoggedIn = false;
 
   // Define las URLs para la API de registro y login
-  private registerUrl = `http://localhost:3000/auth/register`;
-  private loginUrl = `http://localhost:3000/auth/login`;
+  private registerUrl = `http://localhost:3000/api/auth/register`;
+  private loginUrl = `http://localhost:3000/api/auth/login`;
 
   // Define las URLs para la API de tareas (todos)
   private todoUrl = `http://localhost:3000/api/todo`;
@@ -19,7 +19,7 @@ export class AuthService {
 
   // Método de login
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(this.loginUrl, { correo: email, contraseña: password });
+    return this.http.post<any>(this.loginUrl, { email: email, password: password });
   }
 
   logout(): void {
@@ -27,9 +27,9 @@ export class AuthService {
     // Aquí podrías hacer una solicitud para cerrar sesión en el backend si es necesario
   }
 
-  isAuthenticated(): boolean {
-    return this.isLoggedIn;
-  }
+//  isAuthenticated(): boolean {
+ //   return this.isLoggedIn;
+ // }
 
   // Método para registrar un nuevo usuario
   registerUser(userData: any): Observable<any> {

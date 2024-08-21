@@ -25,11 +25,16 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-
       this.authService.login(email, password).pipe(
         tap(response => {
           console.log('Login successful', response);
-          this.router.navigate(['/DoList']); // Redirige a la página de destino después del inicio de sesión exitoso
+  
+          // Verifica si `response` tiene los datos esperados antes de redirigir
+          if (response && response.token) {
+            this.router.navigate(['/DoList']);
+          } else {
+            console.error('No token found in response');
+          }
         }),
         catchError(error => {
           console.error('Login failed', error);
@@ -38,4 +43,5 @@ export class LoginComponent implements OnInit {
       ).subscribe();
     }
   }
+  
 }
