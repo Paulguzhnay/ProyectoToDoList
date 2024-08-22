@@ -1,0 +1,27 @@
+name: Sync from original repository
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # Se ejecuta cada hora
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configura git
+        run: |
+          git config --global user.name "your-username"
+          git config --global user.email "your-email@example.com"
+        
+      - name: Clona el repositorio original
+        run: git clone --depth 1 https://github.com/Paulguzhnay/ProyectoToDoList.git original_repo
+
+      - name: Sincroniza con tu repositorio
+        run: |
+          cd original_repo
+          git remote set-url origin https://github.com/yanditv/ProyectoToDoList.git
+          git push origin main --force
