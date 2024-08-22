@@ -1,6 +1,7 @@
 import {
     CreateTaskDto,
     DeleteTaskDto,
+    GetTasksDto,
     TaskDataSource,
     TaskEntity,
     TaskRepository,
@@ -12,6 +13,10 @@ export class TaskRepositoryImpl implements TaskRepository {
     constructor(
         private readonly taskDataSource: TaskDataSource,
     ) {}
+
+    getTasks(getTasksDto: GetTasksDto): Promise<TaskEntity[]> {
+        return this.taskDataSource.getTasks(getTasksDto);
+    }
 
     createTask(createTaskDto: CreateTaskDto): Promise<TaskEntity> {
         return this.taskDataSource.createTask(createTaskDto);

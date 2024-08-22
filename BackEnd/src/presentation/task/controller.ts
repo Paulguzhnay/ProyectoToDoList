@@ -8,7 +8,9 @@ import {
     CreateTask,
     UpdateTask,
     DeleteTaskDto,
-    DeleteTask
+    DeleteTask,
+    GetTasksDto,
+    GetTasks
 } from '../../domain';
 
 export class TaskController {
@@ -53,6 +55,16 @@ export class TaskController {
         new DeleteTask(this.taskRepository)
             .execute(deleteTaskDto!)
             .then(() => res.json({ message: 'Task deleted successfully' }))
+            .catch(error => this.handleError(error, res));
+    }
+
+    getTasks = (req: Request, res: Response) => {
+        const [error] = GetTasksDto.create(req.body);
+        if (error) return res.status(400).json({ message: error }); 
+             
+        new GetTasks(this.taskRepository)
+            .execute(req.body)
+            .then(data => res.json(data))
             .catch(error => this.handleError(error, res));
     }
 }

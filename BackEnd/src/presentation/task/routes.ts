@@ -15,7 +15,7 @@ export class TaskRoutes {
         router.post('/', [AuthMiddleWare.validateToken], controller.createTask);
         router.put('/:id', [AuthMiddleWare.validateToken], controller.updateTask);
         router.delete('/:id', [AuthMiddleWare.validateToken], controller.deleteTask);
-        // router.get('/', [AuthMiddleWare.validateToken], controller.getAllTasks);
+        router.get('/', [AuthMiddleWare.validateToken], controller.getTasks);
         return router;
     }
 }

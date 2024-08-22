@@ -3,7 +3,7 @@ import {
     CreateTaskDto,
     CustomError,
     DeleteTaskDto,
-    GetTaskDto,
+    GetTasksDto,
     TaskDataSource,
     TaskEntity,
     UpdateTaskDto
@@ -13,6 +13,20 @@ import { TaskMapper } from '../mappers/task.mapper';
 export class TaskDataSourceImpl implements TaskDataSource {
 
     constructor() { }
+    
+    async getTasks(getTasksDto: GetTasksDto): Promise<TaskEntity[]> {
+        const { userID } = getTasksDto;
+        try {
+            const tasks = await TaskModel.find({ userID });
+            return tasks.map(task => TaskMapper.taskEntityFromObject(task));
+        } catch (error) {
+            if (error instanceof CustomError) {
+                throw error;
+            }
+            throw CustomError.internalServer();
+        }
+    }
+
     async createTask(createTaskDto: CreateTaskDto): Promise<TaskEntity> {
         const { title, description, userID } = createTaskDto;
         try {
@@ -65,9 +79,4 @@ export class TaskDataSourceImpl implements TaskDataSource {
             throw CustomError.internalServer();     
         }
     }
-
-    getTask(getTaskDto: GetTaskDto): Promise<TaskEntity> {
-        throw new Error('Method not implemented.');
-    }
-
 }

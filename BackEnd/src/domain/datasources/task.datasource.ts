@@ -1,7 +1,7 @@
 import {
     CreateTaskDto,
     DeleteTaskDto,
-    GetTaskDto,
+    GetTasksDto,
     UpdateTaskDto
 } from "..";
 
@@ -11,5 +11,5 @@ export abstract class TaskDataSource {
     abstract createTask(createTaskDto: CreateTaskDto): Promise<TaskEntity>;
     abstract updateTask(updateTaskDto: UpdateTaskDto): Promise<TaskEntity>;
     abstract deleteTask(deleteTaskDto: DeleteTaskDto): Promise<void>;
-    abstract getTask(getTaskDto: GetTaskDto): Promise<TaskEntity>;
+    abstract getTasks(getTasksDto: GetTasksDto): Promise<TaskEntity[]>;
 }
