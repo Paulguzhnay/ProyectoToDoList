@@ -12,7 +12,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/server/index.server.html"
+      "dest": "/server/main.server.mjs"
     }
   ]
 }
