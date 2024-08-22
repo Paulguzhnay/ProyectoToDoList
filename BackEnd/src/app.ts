@@ -22,7 +22,7 @@ async function main() {
   // Configuración de CORS
   server.app.use(
     cors({
-      origin: ["*"], // Ajusta según sea necesario
+      origin: "https://todo-lemon-nu.vercel.app", // Ajusta según sea necesario
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
