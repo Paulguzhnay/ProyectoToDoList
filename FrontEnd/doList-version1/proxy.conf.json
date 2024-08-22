@@ -1,7 +1,7 @@
 {
   "/api": {
     "target": "https://proyecto-to-do-list-ten.vercel.app",
-    "secure": false,
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   }
