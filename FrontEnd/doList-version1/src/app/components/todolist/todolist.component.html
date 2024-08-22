@@ -1,54 +1,139 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+  rel="stylesheet"
+/>
 
-<div class="container-fluid">
-  <div class="col-12 d-flex justify-content-center">
-    <div class="col-4 todo-block">
-      <button (click)="logout()" class="btn btn-secondary mb-3">Logout</button>
-      <h4 class="text-center mb-3 todo-header">To Do List</h4>
-
-      <!-- Input para agregar o actualizar tarea -->
-      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-        <input class="col-8 todo-input" placeholder="Ingrese tarea" type="text" [(ngModel)]="todoValue">
-      </div>
-      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-        <input class="col-8 todo-input" placeholder="Ingrese Descripción" type="text" [(ngModel)]="todoDescription">
-      </div>
-      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-        <input type="checkbox" [(ngModel)]="isFinished"> <label>Completada</label>
-      </div>
-      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
-        <button type="button" class="col-3 btn btn-primary" (click)="addTodo()">
-          {{ editingTodo ? 'Actualizar' : 'Agregar' }}
+<div class="container p-2">
+  <div class="col-12">
+    <div class="col-12 todo-block">
+      <div
+        class="d-flex justify-content-between align-items-center pt-4 ps-4 pe-4"
+      >
+        <p class="title-task text-center mt-3 mb-4 pb-3">
+          <i class="bi bi-check-square me-1"></i>
+          <span>My Todo</span>
+        </p>
+        <button (click)="logout()" class="btn btn-secondary mb-3">
+          Logout
         </button>
       </div>
 
-      <!-- Lista de Tareas por Realizar -->
-      <div class="todo-list mt-3">
-        <h5>To Do List</h5>
-        <div class="col-12 d-flex todo-single align-items-center mb-2" *ngFor="let todo of todoList">
-          <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todo.isSelected">
-          <p class="col-7">{{ todo.title }}</p>
-          <button type="button" class="btn btn-outline-primary col-2" (click)="editTodo(todo)">
-            <i class="bi bi-pencil-square"></i>
-          </button>
-          <button type="button" class="btn btn-outline-danger col-2" (click)="openModal(content, todo.id)">
-            <i class="bi bi-trash"></i>
+      <div class="p-4">
+        <!-- Input para agregar o actualizar tarea -->
+        <div
+          class="col-12 d-flex align-items-center justify-content-between mb-3"
+        >
+          <input
+            class="col-12 todo-input"
+            placeholder="Ingrese tarea"
+            type="text"
+            [(ngModel)]="todoValue"
+          />
+        </div>
+        <div
+          class="col-12 d-flex align-items-center justify-content-between mb-3"
+        >
+          <textarea
+            class="col-12 todo-input"
+            placeholder="Ingrese Descripción"
+            [(ngModel)]="todoDescription"
+          ></textarea>
+        </div>
+        <div class="col-12 d-flex align-items-center mb-3">
+          <input type="checkbox" [(ngModel)]="isFinished" />
+          <label class="p-2">Completada</label>
+        </div>
+        <div class="col-12 d-flex align-items-center justify-content-between">
+          <button
+            type="button"
+            class="col-12 btn btn-primary"
+            (click)="addTodo()"
+          >
+            {{ editingTodo ? "Actualizar" : "Agregar" }}
           </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Lista de Tareas Finalizadas -->
-      <div class="todo-list mt-3" *ngIf="finishedList.length > 0">
-        <h5>Tareas Finalizadas</h5>
-        <div class="col-12 d-flex todo-single align-items-center mb-2" *ngFor="let todoF of finishedList">
-          <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todoF.isSelected">
-          <p class="col-7">{{ todoF.title }}</p>
-          <button type="button" class="btn btn-outline-primary col-2" (click)="editTodo(todoF)">
-            <i class="bi bi-pencil-square"></i>
-          </button>
-          <button type="button" class="btn btn-outline-danger col-2" (click)="openModal(content, todoF.id)">
-            <i class="bi bi-trash"></i>
-          </button>
+<div class="container mt-5">
+  <div>
+    <!-- Lista de Tareas por Realizar -->
+    <div class="todo-list mt-3">
+      <h6>To Do List</h6>
+      <div class="row">
+        <div
+          class="col-12 col-sm-12 col-md-4 col-lg-3 p-2"
+          *ngFor="let todo of todoList"
+        >
+          <div class="card">
+            <div class="card-header-task">
+              <h6 class="title">
+                <i class="bi bi-check-square"></i> Tarea Pendiente
+              </h6>
+            </div>
+            <div class="card-body">
+              <h6 class="card-title">{{ todo.title }}</h6>
+              <p class="card-text">{{ todo.description }}</p>
+              <!-- <input
+                type="checkbox"
+                class="col-1 todo-checkbox"
+                [(ngModel)]="todo.isSelected"
+              /> -->
+              <button
+                type="button"
+                class="btn btn-outline-primary col-2 card-link"
+                (click)="editTodo(todo)"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger col-2 card-link"
+                (click)="openModal(content, todo.id)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Tareas Finalizadas -->
+    <div class="mt-3" *ngIf="finishedList.length > 0">
+      <h6>Tareas Finalizadas</h6>
+      <div class="row">
+        <div
+          class="col-12 col-sm-12 col-md-4 col-lg-3 p-2"
+          *ngFor="let todoF of finishedList"
+        >
+          <div class="card">
+            <div class="card-header-task-complete">
+              <h6 class="title">
+                <i class="bi bi-check-square"></i> Tarea Completada
+              </h6>
+            </div>
+            <div class="card-body">
+              <h6 class="card-title">{{ todoF.title }}</h6>
+              <p class="card-text">{{ todoF.description }}</p>
+              <button
+                type="button"
+                class="btn btn-outline-primary col-2 card-link"
+                (click)="editTodo(todoF)"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger col-2 card-link"
+                (click)="openModal(content, todoF.id)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,13 +143,26 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Eliminar</h4>
-    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-describedby="modal-title"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <p><strong>¿Está seguro que desea eliminar la tarea?</strong></p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
-    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Ok</button>
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel click')"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+      Ok
+    </button>
   </div>
 </ng-template>

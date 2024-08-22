@@ -1,4 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
-body{
-    background: blue;
+body {
+  background: -webkit-linear-gradient(90deg, #84f5e7, #50c3b5, #059486);
+  background: linear-gradient(90deg, #84f5e7, #50c3b5, #059486);
+  height: 100%; /* ocupa el 100% de la altura de la ventana */
+}
+.card {
+  border: 1px solid #e7e7e7;
+}
+.card-header {
+  background: radial-gradient(
+      at 12.461191311569797% 37.28723942589192%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 1) 0%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 0) 100%
+    ),
+    radial-gradient(
+      at 32.85033255699739% 66.31543983244002%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 1) 0%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 0) 100%
+    ),
+    radial-gradient(
+      at 31.91605449637036% 36.966857838856605%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 1) 0%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 0) 100%
+    ),
+    radial-gradient(
+      at 97.85647771379682% 65.32092328027692%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 1) 0%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 0) 100%
+    ),
+    radial-gradient(
+      at 81.86105962166819% 11.73052723647694%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 1) 0%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 0) 100%
+    ),
+    radial-gradient(
+      at 53.195830706893155% 28.5811124560591%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 1) 0%,
+      hsla(193.09090909090907, 72.36842105263158%, 29.80392156862745%, 0) 100%
+    ),
+    radial-gradient(
+      at 17.490347275645647% 61.570335732702695%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 1) 0%,
+      hsla(172.25806451612902, 63.917525773195884%, 38.03921568627451%, 0) 100%
+    );
+  color: #239f8f;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+.card-header-task-complete {
+  background: -webkit-linear-gradient(90deg, #ffd9a8, #ffd977);
+  background: linear-gradient(90deg, #ffd9a8, #ffd977);
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 1em;
+  border-radius: var(--bs-card-inner-border-radius)
+    var(--bs-card-inner-border-radius) 0 0;
+}
+.card-header-task {
+  background: -webkit-linear-gradient(90deg, #01c7fc, #00a1d8, #0056d6);
+  background: linear-gradient(90deg, #01c7fc, #00a1d8, #0056d6);
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 1em;
+  border-radius: var(--bs-card-inner-border-radius)
+    var(--bs-card-inner-border-radius) 0 0;
+}
+.btn-primary {
+  background-color: #293646 !important;
+  border-color: #293646 !important;
+}
+.title {
+  color: #fff;
+}
+.title-task {
+  color: #239f8f;
+  font-size: 2em;
 }

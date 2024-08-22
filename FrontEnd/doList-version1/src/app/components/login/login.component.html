@@ -1,51 +1,79 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+  rel="stylesheet"
+/>
 
- 
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="text-center">Login To Do List</h3>
-          </div>
-          <div class="card-body">
-            <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-              <div class="form-group mb-3">
-                <label for="email">Email:</label>
-                <input id="email" type="email" class="form-control" formControlName="email" />
-                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
-                  <small *ngIf="loginForm.get('email')?.errors?.['required']">Email es requerido</small>
-                  <small *ngIf="loginForm.get('email')?.errors?.['email']">Formato de email incorrecto</small>
-                </div>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div style="width: 100%; max-width: 400px">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center title">Login to app</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <div class="form-group mb-3">
+              <label for="email">Email:</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched
+                "
+                class="text-danger"
+              >
+                <small *ngIf="loginForm.get('email')?.errors?.['required']"
+                  >Email es requerido</small
+                >
+                <small *ngIf="loginForm.get('email')?.errors?.['email']"
+                  >Formato de email incorrecto</small
+                >
               </div>
-  
-              <div class="form-group mb-3">
-                <label for="password">Password:</label>
-                <input id="password" type="password" class="form-control" formControlName="password" />
-                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
-                  <small *ngIf="loginForm.get('password')?.errors?.['required']">Contraseña es requerida</small>
-                  <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Contraseña minimo 6 caracteres</small>
-                </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="password">Password:</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                formControlName="password"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched
+                "
+                class="text-danger"
+              >
+                <small *ngIf="loginForm.get('password')?.errors?.['required']"
+                  >Contraseña es requerida</small
+                >
+                <small *ngIf="loginForm.get('password')?.errors?.['minlength']"
+                  >Contraseña minimo 6 caracteres</small
+                >
               </div>
-  
-              <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
-                Iniciar Sesion
-              </button>
+            </div>
 
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="loginForm.invalid"
+            >
+              Iniciar Sesion
+            </button>
 
-              <div style="text-align: center;">
-                <a href="Register" style="color: black;">
-                  Registrate aquí
-                </a>
-              </div>
-              
-
-
-            </form>
-          </div>
+            <div style="text-align: center">
+              <a href="Register" style="color: black"> Registrate aquí </a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
