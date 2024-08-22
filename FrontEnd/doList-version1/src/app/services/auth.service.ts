@@ -2,11 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../enviroments/environment'; 
+import { environment } from '../enviroments/environment';
 import { Todo } from '../models/todo';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private _isLoggedIn = false;
@@ -17,11 +17,11 @@ export class AuthService {
   private loginUrl = `${environment.apiBaseUrl}/auth/login`;
   private todoUrl = `${environment.apiBaseUrl}/task`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(this.loginUrl, { email, password }).pipe(
-      tap(response => {
+      tap((response) => {
         if (response && response.token && response.user.id) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userId', response.user.id);
@@ -66,8 +66,8 @@ export class AuthService {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'  // Asegúrate de establecer el tipo de contenido si estás enviando datos JSON
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', // Asegúrate de establecer el tipo de contenido si estás enviando datos JSON
     });
   }
 
@@ -76,23 +76,27 @@ export class AuthService {
   }
 
   createTodo(todoData: any): Observable<any> {
-    console.log("todo", todoData);
-    return this.http.post<any>(this.todoUrl, todoData, { headers: this.getAuthHeaders() });
+    console.log('todo', todoData);
+    return this.http.post<any>(this.todoUrl, todoData, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getTodoById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.todoUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<any>(`${this.todoUrl}/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getTodos(userID: string): Observable<any[]> {
     const headers = this.getAuthHeaders();
     const url = `${this.todoUrl}?userID=${userID}`;
-    console.log("Request URL:", url);
+    console.log('Request URL:', url);
     return this.http.get<any[]>(url, { headers });
   }
 
   updateTodoById(id: string, todo: Todo): Observable<any> {
-    console.log(todo)
+    console.log(todo);
     return this.http.put(`${this.todoUrl}/${id}`, todo);
   }
 
@@ -100,7 +104,7 @@ export class AuthService {
   deleteTodoById(id: string, userID: string): Observable<any> {
     const url = `${this.todoUrl}/${id}`;
     return this.http.delete(url, {
-      body: { userID: userID }
+      body: { userID: userID },
     });
   }
 }
