@@ -9,14 +9,14 @@
       }
     },
     {
-      "src": "server.ts",
+      "src": "server.mjs",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "server.ts"
+      "dest": "server.mjs"
     }
   ]
 }
