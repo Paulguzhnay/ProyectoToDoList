@@ -5,14 +5,18 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/doList-version1"
+        "distDir": "dist/doList-version1/browser"
       }
+    },
+    {
+      "src": "server.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/browser/index.csr.html"
+      "dest": "server.ts"
     }
   ]
 }
