@@ -22,10 +22,7 @@ async function main() {
   // Configuración de CORS
   server.app.use(
     cors({
-      origin: [
-        "https://proyecto-to-do-list-ten.vercel.app",
-        "http://localhost:4200",
-      ], // Ajusta según sea necesario
+      origin: ["https://todo-lemon-nu.vercel.app", "http://localhost:4200"], // Ajusta según sea necesario
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
