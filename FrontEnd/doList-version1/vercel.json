@@ -1,19 +1,22 @@
 {
   "version": 2,
-  "name": "do-list-version1",
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/doList-version1"
+        "distDir": "dist/doList-version1/browser"
       }
+    },
+    {
+      "src": "server.mjs",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/doList-version1/server"
+      "dest": "server.mjs"
     }
   ]
 }
