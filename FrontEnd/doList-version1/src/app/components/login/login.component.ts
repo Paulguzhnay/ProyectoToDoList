@@ -28,9 +28,10 @@ export class LoginComponent implements OnInit {
       this.authService.login(email, password).pipe(
         tap(response => {
           console.log('Login successful', response);
-  
+
           // Verifica si `response` tiene los datos esperados antes de redirigir
           if (response && response.token) {
+            this.authService.isAuthenticated(); // Usa el método para verificar la autenticación
             this.router.navigate(['/DoList']);
           } else {
             console.error('No token found in response');
@@ -43,5 +44,4 @@ export class LoginComponent implements OnInit {
       ).subscribe();
     }
   }
-  
 }

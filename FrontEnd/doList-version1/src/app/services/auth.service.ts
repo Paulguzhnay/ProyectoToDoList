@@ -1,64 +1,64 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '../enviroments/environment'; // Importa el archivo de entorno
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedIn = false;
+  private _isLoggedIn = false;
 
-  // Define las URLs para la API de registro y login
-  private registerUrl = `http://localhost:3000/api/auth/register`;
-  private loginUrl = `http://localhost:3000/api/auth/login`;
-
-  // Define las URLs para la API de tareas (todos)
-  private todoUrl = `http://localhost:3000/api/todo`;
+  // Usa las URLs desde las variables de entorno
+  private registerUrl = `${environment.apiBaseUrl}/auth/register`;
+  private loginUrl = `${environment.apiBaseUrl}/auth/login`;
+  private todoUrl = `${environment.apiBaseUrl}/todo`;
 
   constructor(private http: HttpClient) { }
 
-  // Método de login
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(this.loginUrl, { email: email, password: password });
+    return this.http.post<any>(this.loginUrl, { email, password }).pipe(
+      tap(response => {
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          this._isLoggedIn = true;
+        } else {
+          console.error('No token found in response');
+        }
+      })
+    );
   }
 
   logout(): void {
-    this.isLoggedIn = false;
-    // Aquí podrías hacer una solicitud para cerrar sesión en el backend si es necesario
+    this._isLoggedIn = false;
+    localStorage.removeItem('token');
   }
 
-//  isAuthenticated(): boolean {
- //   return this.isLoggedIn;
- // }
+  isAuthenticated(): boolean {
+    return this._isLoggedIn;
+  }
 
-  // Método para registrar un nuevo usuario
   registerUser(userData: any): Observable<any> {
     return this.http.post<any>(this.registerUrl, userData);
   }
 
-  // ----------------- Métodos para manejar "Todos" -----------------
-
-  // Método para crear una nueva tarea
   createTodo(todoData: any): Observable<any> {
     return this.http.post<any>(this.todoUrl, todoData);
   }
 
-  // Método para obtener una tarea por ID
   getTodoById(id: string): Observable<any> {
     return this.http.get<any>(`${this.todoUrl}/${id}`);
   }
 
-  // Método para listar todas las tareas
   getTodos(): Observable<any[]> {
     return this.http.get<any[]>(this.todoUrl);
   }
 
-  // Método para actualizar una tarea por ID
   updateTodoById(id: string, updatedData: any): Observable<any> {
     return this.http.put<any>(`${this.todoUrl}/${id}`, updatedData);
   }
 
-  // Método para eliminar una tarea por ID
   deleteTodoById(id: string): Observable<any> {
     return this.http.delete<any>(`${this.todoUrl}/${id}`);
   }
