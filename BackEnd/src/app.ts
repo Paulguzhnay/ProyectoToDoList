@@ -27,6 +27,5 @@ async function main() {
       allowedHeaders: ["Content-Type", "Authorization"],
     })
   );
-
   server.start();
 }
