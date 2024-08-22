@@ -1,53 +1,48 @@
 <div class="container d-flex justify-content-center align-items-center vh-100" style="background-color: blue;">
-    <div class="card p-4" style="width: 100%; max-width: 400px;">
-      <h3 class="card-title text-center mb-4 text-white">Registrarse</h3>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="mb-4">
-          <label for="firstName" class="form-label">Nombre:</label>
-          <input id="firstName" formControlName="firstName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched}">
-          <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="invalid-feedback">
-            El nombre es requerido.
-          </div>
+  <div class="card p-4" style="width: 100%; max-width: 400px;">
+    <h3 class="card-title text-center mb-4 text-white">Registrarse</h3>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Nombre -->
+      <div class="mb-4">
+        <label for="firstName" class="form-label">Nombre:</label>
+        <input id="firstName" formControlName="firstName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched}">
+        <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="invalid-feedback">
+          El nombre es requerido.
         </div>
+      </div>
 
-        <div class="mb-4">
-          <label for="lastName" class="form-label">Apellido:</label>
-          <input id="lastName" formControlName="lastName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched}">
-          <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="invalid-feedback">
-            El nombre es requerido.
-          </div>
-        </div>        
-
-
-
-        <div class="mb-4">
-          <label for="email" class="form-label">Correo:</label>
-          <input id="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
-          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
-            <div *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido.</div>
-            <div *ngIf="registerForm.get('email')?.errors?.['email']">Correo no válido.</div>
-          </div>
+      <!-- Campo Apellido -->
+      <div class="mb-4">
+        <label for="lastName" class="form-label">Apellido:</label>
+        <input id="lastName" formControlName="lastName" class="form-control" [ngClass]="{'is-invalid': registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched}">
+        <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="invalid-feedback">
+          El apellido es requerido.
         </div>
-  
-        <div class="mb-4">
-          <label for="password" class="form-label">Contraseña:</label>
-          <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
-          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
-            <div *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
-            <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
-          </div>
+      </div>        
+
+      <!-- Campo Correo -->
+      <div class="mb-4">
+        <label for="email" class="form-label">Correo:</label>
+        <input id="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
+          <div *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido.</div>
+          <div *ngIf="registerForm.get('email')?.errors?.['email']">Correo no válido.</div>
         </div>
-  <!--
-        <div class="mb-4">
-          <label for="confirmarContraseña" class="form-label">Confirmar Contraseña:</label>
-          <input id="confirmarContraseña" type="password" formControlName="confirmarContraseña" class="form-control" [ngClass]="{'is-invalid': registerForm.errors?.['notSame'] && registerForm.get('confirmarContraseña')?.touched}">
-          <div *ngIf="registerForm.errors?.['notSame'] && registerForm.get('confirmarContraseña')?.touched" class="invalid-feedback">
-            Las contraseñas no coinciden.
-          </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="mb-4">
+        <label for="password" class="form-label">Contraseña:</label>
+        <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
+          <div *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+          <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
+          <div *ngIf="registerForm.get('password')?.errors?.['pattern']">La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.</div>
         </div>
-  -->
-        <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Registrarse</button>
-      </form>
-    </div>
+      </div>
+ 
+      <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Registrarse</button>
+      <button type="button" class="btn btn-secondary w-100 mt-2" (click)="goToLogin()">Ir al login</button>
+    </form>
   </div>
-  
+</div>

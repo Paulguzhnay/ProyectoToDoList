@@ -59,12 +59,22 @@ export class TaskController {
     }
 
     getTasks = (req: Request, res: Response) => {
-        const [error] = GetTasksDto.create(req.body);
-        if (error) return res.status(400).json({ message: error }); 
-             
+        const userID = req.query.userID as string; // Accede al parámetro userID desde la URL
+    
+        if (!userID) {
+            return res.status(400).json({ message: "UserID is required" });
+        }
+    
+        // Asumiendo que GetTasksDto.create ahora acepta un objeto con userID
+        const [error] = GetTasksDto.create({ userID });
+        if (error) return res.status(400).json({ message: error });
+    
         new GetTasks(this.taskRepository)
-            .execute(req.body)
+            .execute({ userID }) // Ejecuta usando el userID
             .then(data => res.json(data))
             .catch(error => this.handleError(error, res));
-    }
+    };
+
+
+    
 }

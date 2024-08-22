@@ -1,7 +1,8 @@
- 
 export interface Todo {
-    id?: string; // El ID puede ser opcional al crear una nueva tarea
-    title: string;
-    description?: string;
-    isFinished: boolean;
-  }
+  id?: string; // Si usas un ID para identificar las tareas
+  title: string;
+  description: string; // Añade esta línea si también usas la descripción
+  userID:string
+  isFinished: boolean;
+  isSelected?: boolean; // Nueva propiedad opcional
+}

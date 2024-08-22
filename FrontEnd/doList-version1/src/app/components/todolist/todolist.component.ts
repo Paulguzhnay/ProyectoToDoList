@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todolist',
@@ -11,111 +11,146 @@ import { Router } from '@angular/router';
 })
 export class TodolistComponent implements OnInit {
   todoValue: string = '';
+  todoDescription: string = '';
+  isFinished: boolean = false; // Nuevo estado para el checkbox
+  userID: string | null = null;
+  token: string | null = null;
+  todoToDeleteId: string | null = null;
   todoList: Todo[] = [];
   finishedList: Todo[] = [];
+  editingTodo: Todo | null = null;
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private router: Router) {}
+  constructor(
+    private modalService: NgbModal,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.loadTodos();
+    this.route.queryParams.subscribe(params => {
+      this.userID = params['id'];
+      this.token = params['token'];
+
+      if (this.token && this.userID) {
+        this.authService.setTokenAndUserID(this.token, this.userID);
+        this.loadTodos();
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   loadTodos(): void {
-    this.authService.getTodos().subscribe(
-      todos => {
-        this.todoList = todos.filter(todo => !todo.isFinished);
-        this.finishedList = todos.filter(todo => todo.isFinished);
-      },
-      error => {
-        console.error('Error al cargar las tareas', error);
-      }
-    );
+    if (this.userID) {
+      this.authService.getTodos(this.userID).subscribe(
+        todos => {
+          this.todoList = todos.filter(todo => !todo.isFinished);
+          this.finishedList = todos.filter(todo => todo.isFinished);
+        },
+        error => {
+          console.error('Error al cargar las tareas', error);
+        }
+      );
+    }
   }
 
   addTodo(): void {
-    const newTodo: Todo = { title: this.todoValue, isFinished: false };
-    this.authService.createTodo(newTodo).subscribe(
-      todo => {
-        this.todoList.push(todo);
-        this.todoValue = '';
-      },
-      error => {
-        console.error('Error al crear la tarea', error);
-      }
-    );
-  }
-
-  changeTodo(i: number): void {
-    const todo = this.todoList[i];
-    todo.isFinished = true;
-    if (todo.id) {
-      this.authService.updateTodoById(todo.id, todo).subscribe(
-        updatedTodo => {
-          this.todoList.splice(i, 1);
-          this.finishedList.push(updatedTodo);
-        },
-        error => {
-          console.error('Error al actualizar la tarea', error);
-        }
-      );
-    } else {
-      console.error('ID de la tarea no está definido');
+    if (this.todoValue.trim() === '' || this.todoDescription.trim() === '' || !this.userID) {
+      return;
     }
-  }
 
-  changeFinished(i: number): void {
-    const todo = this.finishedList[i];
-    todo.isFinished = false;
-    if (todo.id) {
-      this.authService.updateTodoById(todo.id, todo).subscribe(
-        updatedTodo => {
-          this.finishedList.splice(i, 1);
-          this.todoList.push(updatedTodo);
-        },
-        error => {
-          console.error('Error al actualizar la tarea', error);
-        }
-      );
-    } else {
-      console.error('ID de la tarea no está definido');
-    }
-  }
+    const updatedTodo: Todo = {
+      title: this.todoValue,
+      description: this.todoDescription,
+      userID: this.userID,
+      isFinished: this.isFinished // Asigna el estado del checkbox
+    };
 
-  openModal(content: TemplateRef<Element>, i: number, type: string): void {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
-        if (type === 'todoList') {
-          this.deleteTodo(i, 'todoList');
-        } else {
-          this.deleteTodo(i, 'finishedList');
-        }
-      },
-      reason => {}
-    );
-  }
-
-  deleteTodo(i: number, listType: string): void {
-    const todo = listType === 'todoList' ? this.todoList[i] : this.finishedList[i];
-    if (todo.id) {
-      this.authService.deleteTodoById(todo.id).subscribe(
+    if (this.editingTodo) {
+      // Si estamos editando una tarea existente
+      this.authService.updateTodoById(this.editingTodo.id!, updatedTodo).subscribe(
         () => {
-          if (listType === 'todoList') {
-            this.todoList.splice(i, 1);
-          } else {
-            this.finishedList.splice(i, 1);
-          }
+          this.loadTodos();
+          this.clearInputs();
+        },
+        error => {
+          console.error('Error al actualizar la tarea', error);
+        }
+      );
+    } else {
+      // Si estamos agregando una nueva tarea
+      this.authService.createTodo(updatedTodo).subscribe(
+        () => {
+          this.loadTodos();
+          this.clearInputs();
+        },
+        error => {
+          console.error('Error al crear la tarea', error);
+        }
+      );
+    }
+  }
+
+  editTodo(todo: Todo): void {
+    this.todoValue = todo.title;
+    this.todoDescription = todo.description;
+    this.isFinished = todo.isFinished; // Configura el estado del checkbox
+    this.editingTodo = todo;
+  }
+
+  deleteTodo(id: string): void {
+    if (this.userID) {
+      this.authService.deleteTodoById(id, this.userID).subscribe(
+        () => {
+          this.loadTodos();
         },
         error => {
           console.error('Error al eliminar la tarea', error);
         }
       );
     } else {
-      console.error('ID de la tarea no está definido');
+      console.error('No se puede eliminar la tarea, falta userID');
+    }
+  }
+
+  clearInputs(): void {
+    this.todoValue = '';
+    this.todoDescription = '';
+    this.isFinished = false; // Restablece el estado del checkbox
+    this.editingTodo = null;
+  }
+
+  openModal(content: TemplateRef<Element>, todoId: string | undefined): void {
+    if (todoId) {
+      this.todoToDeleteId = todoId;
+      this.modalService.open(content).result.then(
+        result => {
+          if (result === 'Ok click' && this.todoToDeleteId) {
+            this.deleteTodo(this.todoToDeleteId);
+          }
+        },
+        reason => {}
+      );
     }
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);  // Redirige al login después de cerrar sesión
+    this.router.navigate(['/login']);
+  }
+
+  confirmDelete(): void {
+    if (this.todoToDeleteId && this.userID) {
+      this.authService.deleteTodoById(this.todoToDeleteId, this.userID).subscribe(
+        () => {
+          this.loadTodos();
+          this.modalService.dismissAll();
+        },
+        error => {
+          console.error('Error al eliminar la tarea', error);
+        }
+      );
+    }
   }
 }
