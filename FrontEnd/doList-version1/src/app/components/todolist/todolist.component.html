@@ -1,60 +1,70 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <div class="container-fluid">
-    <div class="col-12 d-flex justify-content-center">
+  <div class="col-12 d-flex justify-content-center">
+    <div class="col-4 todo-block">
+      <button (click)="logout()" class="btn btn-secondary mb-3">Logout</button>
+      <h4 class="text-center mb-3 todo-header">To Do List</h4>
 
-        <div class="col-4 todo-block">
-            <!-- Botón de Logout -->
-            <button (click)="logout()" class="btn btn-secondary mb-3">Logout</button>
-            <h4 class="text-center mb-3 todo-header">To Do List</h4>
+      <!-- Input para agregar o actualizar tarea -->
+      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+        <input class="col-8 todo-input" placeholder="Ingrese tarea" type="text" [(ngModel)]="todoValue">
+      </div>
+      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+        <input class="col-8 todo-input" placeholder="Ingrese Descripción" type="text" [(ngModel)]="todoDescription">
+      </div>
+      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+        <input type="checkbox" [(ngModel)]="isFinished"> <label>Completada</label>
+      </div>
+      <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+        <button type="button" class="col-3 btn btn-primary" (click)="addTodo()">
+          {{ editingTodo ? 'Actualizar' : 'Agregar' }}
+        </button>
+      </div>
 
-            <!-- Input para agregar nueva tarea -->
-            <div class="col-12 d-flex align-items-center justify-content-between">
-                <input class="col-8 todo-input" placeholder="Ingrese tarea" type="text" name="textTask" [(ngModel)]="todoValue">
-                <button type="submit" class="col-3 btn btn-primary" (click)="addTodo()">Agregar</button> 
-            </div>
-
-            <!-- Lista de Tareas por Realizar -->
-            <div class="todo-list mt-3">
-                <h5>To Do List</h5>
-                <div class="col-12 d-flex todo-single align-center" *ngFor="let todo of todoList; let i=index;">
-                    <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todo.isFinished" (ngModelChange)="changeTodo(i)">
-                    <p class="col-9">{{ todo.title }}</p>
-                    <button type="button" class="btn btn-outline-light text-danger col-1 del-btn" (click)="openModal(content, i, 'todoList')">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Lista de Tareas Finalizadas -->
-            <div class="todo-list mt-3" *ngIf="finishedList.length > 0">
-                <h5>Tareas Finalizadas</h5>
-                <div class="col-12 d-flex todo-single align-center" *ngFor="let todoF of finishedList; let i=index;">
-                    <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todoF.isFinished" (ngModelChange)="changeFinished(i)">
-                    <p class="col-9">{{ todoF.title }}</p>
-                    <button type="button" class="btn btn-outline-light text-danger col-1 del-btn" (click)="openModal(content, i, 'finishedList')">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-
+      <!-- Lista de Tareas por Realizar -->
+      <div class="todo-list mt-3">
+        <h5>To Do List</h5>
+        <div class="col-12 d-flex todo-single align-items-center mb-2" *ngFor="let todo of todoList">
+          <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todo.isSelected">
+          <p class="col-7">{{ todo.title }}</p>
+          <button type="button" class="btn btn-outline-primary col-2" (click)="editTodo(todo)">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button type="button" class="btn btn-outline-danger col-2" (click)="openModal(content, todo.id)">
+            <i class="bi bi-trash"></i>
+          </button>
         </div>
+      </div>
+
+      <!-- Lista de Tareas Finalizadas -->
+      <div class="todo-list mt-3" *ngIf="finishedList.length > 0">
+        <h5>Tareas Finalizadas</h5>
+        <div class="col-12 d-flex todo-single align-items-center mb-2" *ngFor="let todoF of finishedList">
+          <input type="checkbox" class="col-1 todo-checkbox" [(ngModel)]="todoF.isSelected">
+          <p class="col-7">{{ todoF.title }}</p>
+          <button type="button" class="btn btn-outline-primary col-2" (click)="editTodo(todoF)">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button type="button" class="btn btn-outline-danger col-2" (click)="openModal(content, todoF.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<!-- Modal para Confirmar Eliminación de Tarea -->
 <ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">Eliminar</h4>
-        <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-        <p>
-            <strong>¿Está seguro que desea eliminar la tarea?</strong>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
-    </div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Eliminar</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Está seguro que desea eliminar la tarea?</strong></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Ok</button>
+  </div>
 </ng-template>

@@ -28,13 +28,14 @@ export class LoginComponent implements OnInit {
       this.authService.login(email, password).pipe(
         tap(response => {
           console.log('Login successful', response);
+          if (response && response.token && response.user.id) {
 
-          // Verifica si `response` tiene los datos esperados antes de redirigir
-          if (response && response.token) {
-            this.authService.isAuthenticated(); // Usa el método para verificar la autenticación
-            this.router.navigate(['/DoList']);
+            const userID = response.user.id;
+            const token = response.token;
+            // Redirige al usuario a la página de lista de tareas pasando el id y token como parámetros de consulta
+            this.router.navigate(['/DoList'], { queryParams: { id: userID, token: token } });
           } else {
-            console.error('No token found in response');
+            console.error('No token or id found in response');
           }
         }),
         catchError(error => {
