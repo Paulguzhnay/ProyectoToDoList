@@ -13,7 +13,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/doList-version1/$1"
+      "dest": "/dist/doList-version1/server"
     }
   ]
 }
